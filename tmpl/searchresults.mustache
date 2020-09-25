@@ -1,0 +1,14 @@
+{{> header}}
+
+<p>
+Search results for &ldquo;{{{keyword}}}&rdquo;
+ - <a href="/sora/search/{{{search_uri_str}}}">#</a>
+</p>
+
+<ul>
+{{#stream_loop}}
+<li><a href="{{{url}}}">{{{uri}}}</a></li>
+{{/stream_loop}}
+</ul>
+
+{{> footer}}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{pagetitle}}</title>
+  <meta charset="utf-8" />
+  <meta name="author"           content="{{{author}}}" />
+  <meta name="description"      content="{{{site_description}}}" />
+  <meta name="viewport"         content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{{maincss_url}}}" /> 
+  <link rel="alternate"  type="application/json" title="JSON Feed" href="http://md.soupmode.com/feed.json" />
+  <link rel="alternate"  type="text/html"        title="Microformatted HTML feed page" href="http://md.soupmode.com/hfeed.html" /> 
+<style>
+/* maybe later include name="inc_minified-css.tmpl" */
+{{#using_custom_css}}
+{{{custom_css}}}
+{{/using_custom_css}}
+</style>
+</head>
+<body>
+
+<div class="home-link">
+<a title="{{{site_name}}} homepage"  href="/">home</a>
+</div>
+

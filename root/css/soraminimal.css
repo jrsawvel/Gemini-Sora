@@ -1,0 +1,62 @@
+
+
+/*
+
+body {margin: 0 auto; max-width: 640px; width: 100%; font-size: 21px; font-family: Helvetica, sans-serif; line-height: 34px; color: #111; background-color: #fff;}
+img {max-width: 100%;}
+pre, code {background: #f8f8f8; white-space: -moz-pre-wrap; white-space: pre-wrap;}
+p {margin-top: 30px; margin-bottom: 30px;}
+h2 {font-size: 29px;}
+@media print{body{max-width:none}}
+@media only screen and (max-width: 680px) { body {max-width:92%} }
+
+(another option for pre,code)
+
+pre, code {background: #f8f8f8; overflow-x: scroll; overflow-y: hidden;}
+
+*/
+
+
+body {
+
+    margin: 10px auto;
+    max-width: 680px;
+    padding: 0 10px;
+    font-size: 22px; 
+    line-height: 38px;
+line-height: 1.7;
+    color:     #222;
+    background: #fafafa;
+    font-family: 
+        system-ui,
+        -apple-system, 
+        BlinkMacSystemFont, 
+        "San Francisco", 
+        "Segoe UI", 
+        "Roboto",
+        "Oxygen",
+        "Ubuntu", 
+        "Cantarell",
+        "Fira Sans", 
+        "Droid Sans", 
+        "Helvetica Neue", 
+        "Lucida Grande",
+        Verdana, 
+        "Helvetica", 
+        sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    line-height:1.2;
+}
+
+@media print {
+    body {
+        color: #000;
+        background-color: #fff;
+        line-height: normal;
+        max-width: 100%;
+        font-size: 18px;
+    }
+}
+
