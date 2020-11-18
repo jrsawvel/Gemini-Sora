@@ -235,6 +235,58 @@ function _create_rss3_file(hash, stream)
 end
 
 
+function _create_gemfeed_file(hash, stream)
+
+    local max_entries = config.get_value_for("max_entries")
+    local gemfeed_hash = {}
+
+    gemfeed_hash.title          =  config.get_value_for("site_name")
+    gemfeed_hash.description    =  config.get_value_for("site_description")
+    -- gemfeed_hash.link           = "gemini://sawv.org/posts.gmi" 
+    -- gemfeed_hash.uri            =  "gemini://sawv.org/rss3.txt"
+    gemfeed_hash.lastmodified   =  os.date("%Y-%m-%dT%XZ")
+
+    local items = {}
+
+    if max_entries > #stream then
+        max_entries = #stream
+    end
+
+    for i=1, max_entries do
+        local h = {}
+        h.title   = stream[i].title
+        h.link    = stream[i].url
+        h.created = stream[i].created
+        table.insert(items, h)
+    end
+
+    gemfeed_hash.items = items
+
+    page.set_template_name("gemfeed")
+
+    page.set_template_variable("title",       gemfeed_hash.title) 
+    page.set_template_variable("description", gemfeed_hash.description)
+    -- page.set_template_variable("link",        gemfeed_hash.link)
+    -- page.set_template_variable("uri",         gemfeed_hash.uri)
+    page.set_template_variable("lastmodified",gemfeed_hash.lastmodified)
+    page.set_template_variable("items_loop",  gemfeed_hash.items)
+
+    local gemfeed_output = page.get_output_bare()
+
+    local gemfeed_feed_filename = config.get_value_for("default_doc_root") .. "/" .. config.get_value_for("gemfeed_feed_file")
+
+    local o = io.open(gemfeed_feed_filename, "w")
+    if o == nil then
+        return rj.report_error("500", "Unable to open Gemini feed file for write.", gemfeed_feed_filename)
+    else
+        o:write(gemfeed_output)
+        o:close()
+    end
+
+    return true
+
+end
+
 
 function _update_links_json_file(hash)
 
@@ -472,13 +524,24 @@ incoming hash or table from the create module would contain all or most of the f
 ]]
 function M.output(submit_type, hash, markup)
 
-    markup = string.gsub(markup, "%%u2014", "--")
-    markup = string.gsub(markup, "%%u201C", '"')
-    markup = string.gsub(markup, "%%u201D", '"')
-    markup = string.gsub(markup, "%%u2019", "'")
-    markup = string.gsub(markup, "&#8220;", '"')
-    markup = string.gsub(markup, "&#8221;", '"')
-    markup = string.gsub(markup, "&#9;", "    ")
+    markup = string.gsub(markup, "%%u2013", "-")  -- en dash
+    markup = string.gsub(markup, "%%u2014", "--") -- em dash
+    markup = string.gsub(markup, "%%u2018", "'")  -- Left Single Quotation Mark
+    markup = string.gsub(markup, "%%u2019", "'")  -- Right Single Quotation Mark
+    markup = string.gsub(markup, "%%u201C", '"')  -- Left Double Quotation Mark
+    markup = string.gsub(markup, "%%u201D", '"')  -- Right Double Quotation Mark
+    markup = string.gsub(markup, "%%u2022", "*")  -- Bullet point
+    markup = string.gsub(markup, "%%u2026", "...")  -- Horizontal ellipse
+
+    markup = string.gsub(markup, "&#8211;", "-")  -- en dash
+    markup = string.gsub(markup, "&#8212;", "--") -- em dash
+    markup = string.gsub(markup, "&#8216;", "'")  -- Left Single Quotation Mark
+    markup = string.gsub(markup, "&#8217;", "'")  -- Right Single Quotation Mark
+    markup = string.gsub(markup, "&#8220;", '"')  -- Left Double Quotation Mark
+    markup = string.gsub(markup, "&#8221;", '"')  -- Right Double Quotation Mark
+    markup = string.gsub(markup, "&#8226;", "*")  -- Bullet point
+    markup = string.gsub(markup, "&#8230;", "...")  -- Horizontal ellipse
+    markup = string.gsub(markup, "&#9;", "    ") -- tab ?
 
 
     if hash.template ~= nil then
@@ -540,8 +603,9 @@ function M.output(submit_type, hash, markup)
             return false
         end
 --        _create_jsonfeed_file(hash, stream)
-        _create_rss3_file(hash, stream)
+--        _create_rss3_file(hash, stream)
         _create_atom_file(hash, stream)
+        _create_gemfeed_file(hash, stream)
     end
 
     return true

@@ -27,5 +27,6 @@
     rss3_feed_file:                 rss3.txt
     atom_feed_file:                 atom.xml
     hfeed_file:                     index.html
+    gemfeed_feed_file:              feed.gmi
     max_entries:                    20
     versions_storage:               /home/gemini/docroot/versions
