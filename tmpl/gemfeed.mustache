@@ -2,14 +2,10 @@
 
 ## {{{description}}}
 
-=> gemini://sawv.org/posts.gmi  Posts
-=> gemini://sawv.org/feed.gmi   Feed
+{{#items_loop}}
+=> {{{link}}}    {{{created}}} - {{{title}}}
+{{/items_loop}}
+
 language: en-us
 creator: jr@sawv.org
 last-modified: {{{lastmodified}}}
-
-{{#items_loop}}
-=> {{{link}}}    {{{title}}}
-date: {{{created}}}
-
-{{/items_loop}}

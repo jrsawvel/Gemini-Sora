@@ -256,7 +256,11 @@ function _create_gemfeed_file(hash, stream)
         local h = {}
         h.title   = stream[i].title
         h.link    = stream[i].url
-        h.created = stream[i].created
+        -- h.created = stream[i].created
+        -- created exists in the format of: 2021-02-01T20:32:58Z
+        -- now i only want the date part and not the time. Feb 1, 2021.
+        local tmp_dt_array = utils.split(stream[i].created, "T")
+        h.created = tmp_dt_array[1]
         table.insert(items, h)
     end
 
