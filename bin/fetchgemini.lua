@@ -16,8 +16,10 @@ local pl        = require "pl" -- sudo luarocks install penlight - somehow this 
 
 function fetch_url(url)
 
-    local Body, Code, Headers, Status
-    Body = ""
+    local Body    = "" 
+    local Code    = "0" 
+    local Headers = ""
+    local Status  = ""
 
     local ssl_params = {
         mode     = "client",
@@ -84,7 +86,7 @@ end
 
 
 if #arg < 1 then
-    error("fetchgemini url")
+    error("fetchgemini 'url'")
 end
 
 
@@ -94,7 +96,7 @@ local b, c, h, s = fetch_url(arg[1])
 local y = string.format("elapsed time: %.4f seconds\n", os.clock() - x)
 
 print("code number = " .. c)
-print("headers = " .. h)
+print("headers = " .. h) 
 print("status = " .. s)
 print("body = \n" .. b)
 

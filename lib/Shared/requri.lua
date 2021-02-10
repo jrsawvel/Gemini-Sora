@@ -19,9 +19,9 @@ function M.get_cgi_params()
 
     path_info = string.gsub(path_info, "/sora.lua", "") 
 
-    path_info = string.gsub(path_info, ".html", "") 
+    path_info = string.gsub(path_info, "%.html", "") 
 
-    path_info = string.gsub(path_info, ".gmi", "") 
+    path_info = string.gsub(path_info, "%.gmi", "") 
 
     path_info = string.gsub(path_info, "/api/v1", "") -- api code
 

@@ -28,7 +28,7 @@ function M.update_post()
     local logged_in_author_name = hash.author
     local session_id            = hash.session_id
     local rev                   = hash.rev
-   
+
     if session.is_valid_login(logged_in_author_name, session_id, rev) == false then 
         rj.report_error("400", "Unable to peform action.", "You are not logged in. ")
     else
@@ -37,6 +37,7 @@ function M.update_post()
             rj.report_error("400", "Unable to process post.", "Invalid submit type given.")
         else
            local original_slug   = hash.original_slug -- diff from create
+
            local original_markup = hash.markup
            local markup = utils.trim_spaces(original_markup)
            if markup == nil or markup == "" then
@@ -121,7 +122,6 @@ function M.update_post()
            end
         end 
     end
-
 end
 
 
