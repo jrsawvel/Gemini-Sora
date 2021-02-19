@@ -372,7 +372,11 @@ function _save_markup_to_web_directory(markup, hash)
             return false
         end
     else 
-        markup_filename = config.get_value_for("default_doc_root") .. "/" .. hash.slug .. ".gmi"
+        if hash.slug ~= "atom.xml" then
+            markup_filename = config.get_value_for("default_doc_root") .. "/" .. hash.slug .. ".gmi"
+        else
+            markup_filename = config.get_value_for("default_doc_root") .. "/atom.xml"
+        end
     end
  
     if rex.match(markup_filename, "^[a-zA-Z0-9/%.%-_]+$") == nil then
@@ -581,12 +585,16 @@ function M.output(submit_type, hash, markup)
         return true
     end  
 
-    if _save_markup_to_storage_directory(submit_type, markup, hash) == false then
-        return false
+    if hash.slug ~= "atom.xml" then
+        if _save_markup_to_storage_directory(submit_type, markup, hash) == false then
+            return false
+        end
     end
 
-    if submit_type == "update" then
-        _save_markup_to_backup_directory(markup, hash)
+    if hash.slug ~= "atom.xml" then
+        if submit_type == "update" then
+            _save_markup_to_backup_directory(markup, hash)
+        end
     end
 
     if _save_markup_to_web_directory(markup, hash) == false then
@@ -608,7 +616,9 @@ function M.output(submit_type, hash, markup)
         end
 --        _create_jsonfeed_file(hash, stream)
 --        _create_rss3_file(hash, stream)
-        _create_atom_file(hash, stream)
+        -- 19feb2021 - i'm now updating the atom.xml file manually through this web interface.
+        -- _create_atom_file(hash, stream) 
+        -- this gemfeed file is for my own usage. i'm now manually updating the main gemfeed file through this web interface.
         _create_gemfeed_file(hash, stream)
     end
 
@@ -622,7 +632,13 @@ function M.read_markup_file(post_id)
 
     local markup = ""
 
-    local markup_filename = config.get_value_for("default_doc_root") .. "/" .. post_id .. ".gmi"
+    local markup_filename
+   
+    if post_id ~= "atom.xml" then 
+        markup_filename = config.get_value_for("default_doc_root") .. "/" .. post_id .. ".gmi"
+    else
+        markup_filename = config.get_value_for("default_doc_root") .. "/atom.xml"
+    end
 
     local f = io.open(markup_filename, "r")
 

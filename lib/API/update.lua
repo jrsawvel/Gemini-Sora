@@ -74,7 +74,13 @@ function M.update_post()
                    post_hash.original_slug  = original_slug -- diff from create
                    post_hash.post_id        = original_slug -- diff from create
 
-                   local tmp_diff_slug = rex.match(markup, "^<!--[ ]*slug[ ]*:[ ]*(.+)[ ]*-->", 1, "im")
+                   local tmp_diff_slug   = rex.match(markup, "^<!--[ ]*slug[ ]*:[ ]*(.+)[ ]*-->", 1, "im")
+                   local tmp_diff_slug_2 = rex.match(markup, "^```[ ]*slug[ ]*:[ ]*(.+)[ ]*", 1, "im")
+
+                   if tmp_diff_slug_2 ~= nil then
+                       tmp_diff_slug = tmp_diff_slug_2
+                   end
+
                    if tmp_diff_slug ~= nil then
                        post_hash.slug = utils.trim_spaces(tmp_diff_slug)
                    end 
@@ -99,7 +105,11 @@ function M.update_post()
                        end
                        post_hash.location = config.get_value_for("home_page") .. "/" .. post_hash.dir .. "/" .. post_hash.slug .. ".gmi"   
                    else
-                       post_hash.location = config.get_value_for("home_page") .. "/" .. post_hash.slug .. ".gmi"   
+                       if post_hash.slug ~= "atom.xml" then
+                           post_hash.location = config.get_value_for("home_page") .. "/" .. post_hash.slug .. ".gmi"   
+                       else
+                           post_hash.location = config.get_value_for("home_page") .. "/atom.xml"
+                       end
                    end
 
                   if post_hash.dir ~= nil and rex.match(post_hash.dir, "^[a-zA-Z0-9]") == nil then

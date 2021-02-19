@@ -69,7 +69,13 @@ function M.create_post()
                    post_hash.custom_css     = page_data.custom_css
                    post_hash.custom_json    = format.extract_json(t.after_title_markup)
 
-                   local tmp_diff_slug = rex.match(markup, "^<!--[ ]*slug[ ]*:[ ]*(.+)[ ]*-->", 1, "im")
+                   local tmp_diff_slug   = rex.match(markup, "^<!--[ ]*slug[ ]*:[ ]*(.+)[ ]*-->", 1, "im")
+                   local tmp_diff_slug_2 = rex.match(markup, "^```[ ]*slug[ ]*:[ ]*(.+)[ ]*", 1, "im")
+
+                   if tmp_diff_slug_2 ~= nil then
+                       tmp_diff_slug = tmp_diff_slug_2
+                   end
+
                    if tmp_diff_slug ~= nil then
                        post_hash.slug = utils.trim_spaces(tmp_diff_slug)
                    end 
